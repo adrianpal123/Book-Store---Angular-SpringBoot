@@ -34,17 +34,22 @@ public class Book {
     @Min(0)
     @Column(nullable = false)
     private Integer stock;
+    
+    @NotBlank
+    @Column(nullable = true)
+    private String imageUrl;
 
     // Constructors, getters, setters
 
     public Book() {}
 
-    public Book(String title, String author, String isbn, BigDecimal price, Integer stock) {
+    public Book(String title, String author, String isbn, BigDecimal price, Integer stock, String ImageUrl) {
         this.title = title;
         this.author = author;
         this.isbn = isbn;
         this.price = price;
         this.stock = stock;
+        this.imageUrl = ImageUrl;
     }
 
     public record BookRequest(
@@ -52,7 +57,8 @@ public class Book {
             @NotBlank String author,
             @NotBlank String isbn,
             @DecimalMin(value = "0.0", inclusive = false) BigDecimal price,
-            @Min(0) Integer stock
+            @Min(0) Integer stock,
+            @NotBlank String imageUrl
     ) {}
 
     public Long getId() {
@@ -102,6 +108,14 @@ public class Book {
 	public void setStock(Integer stock) {
 		this.stock = stock;
 	}
+	
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
 
 	public record BookResponse(
             Long id,
@@ -109,10 +123,11 @@ public class Book {
             String author,
             String isbn,
             BigDecimal price,
-            Integer stock
+            Integer stock,
+            String imageUrl
     ) {
         public static BookResponse from(Book b) {
-            return new BookResponse(b.getId(), b.getTitle(), b.getAuthor(), b.getIsbn(), b.getPrice(), b.getStock());
+            return new BookResponse(b.getId(), b.getTitle(), b.getAuthor(), b.getIsbn(), b.getPrice(), b.getStock(),b.getImageUrl());
         }
     }
 }

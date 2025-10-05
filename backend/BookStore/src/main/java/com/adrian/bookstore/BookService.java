@@ -34,7 +34,7 @@ public class BookService {
         repo.findByIsbn(req.isbn()).ifPresent(b -> {
             throw new DuplicateIsbnException(req.isbn());
         });
-        Book b = new Book(req.title(), req.author(), req.isbn(), req.price(), req.stock());
+        Book b = new Book(req.title(), req.author(), req.isbn(), req.price(), req.stock(), req.imageUrl());
         return BookResponse.from(repo.save(b));
     }
 
