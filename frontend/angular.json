@@ -16,79 +16,86 @@
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
+  "src/favicon.ico",
+  {
+    "glob": "**/*",
+    "input": "src/assets",
+    "output": "/assets"
+  },
+  {
+    "glob": "**/*",
+    "input": "public",
+    "output": "/"
+  }
+],
+              "styles": [
+                "src/styles.css"
+              ],
+              "server": "src/main.server.ts",
+              "outputMode": "server",
+              "ssr": {
+                "entry": "src/server.ts"
               }
-            ],
-            "styles": [
-              "src/styles.css"
-            ],
-            "server": "src/main.server.ts",
-            "outputMode": "server",
-            "ssr": {
-              "entry": "src/server.ts"
-            }
+            },
+            "configurations": {
+              "production": {
+                "budgets": [
+                  {
+                    "type": "initial",
+                    "maximumWarning": "500kB",
+                    "maximumError": "1MB"
+                  },
+                  {
+                    "type": "anyComponentStyle",
+                    "maximumWarning": "4kB",
+                    "maximumError": "8kB"
+                  }
+                ],
+                "outputHashing": "all"
+              },
+              "development": {
+                "optimization": false,
+                "extractLicenses": false,
+                "sourceMap": true
+              }
+            },
+            "defaultConfiguration": "production"
           },
-          "configurations": {
-            "production": {
-              "budgets": [
+          "serve": {
+            "builder": "@angular/build:dev-server",
+            "configurations": {
+              "production": {
+                "buildTarget": "book-store-ui:build:production"
+              },
+              "development": {
+                "buildTarget": "book-store-ui:build:development"
+              }
+            },
+            "defaultConfiguration": "development"
+          },
+          "extract-i18n": {
+            "builder": "@angular/build:extract-i18n"
+          },
+          "test": {
+            "builder": "@angular/build:karma",
+            "options": {
+              "tsConfig": "tsconfig.spec.json",
+              "assets": [
                 {
-                  "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
+                  "glob": "**/*",
+                  "input": "public"
                 }
               ],
-              "outputHashing": "all"
-            },
-            "development": {
-              "optimization": false,
-              "extractLicenses": false,
-              "sourceMap": true
+              "styles": [
+                "node_modules/bootstrap/dist/css/bootstrap.min.css",
+                "src/styles.css"
+              ],
+              "scripts": [
+                "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+              ]
             }
-          },
-          "defaultConfiguration": "production"
-        },
-        "serve": {
-          "builder": "@angular/build:dev-server",
-          "configurations": {
-            "production": {
-              "buildTarget": "book-store-ui:build:production"
-            },
-            "development": {
-              "buildTarget": "book-store-ui:build:development"
-            }
-          },
-          "defaultConfiguration": "development"
-        },
-        "extract-i18n": {
-          "builder": "@angular/build:extract-i18n"
-        },
-        "test": {
-          "builder": "@angular/build:karma",
-          "options": {
-            "tsConfig": "tsconfig.spec.json",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
-            ],
-            "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/styles.css"
-            ],
-            "scripts": [
-              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
-            ]
           }
         }
       }
     }
   }
-}
